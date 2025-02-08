@@ -144,7 +144,7 @@ if (localStorage.getItem("homeDate") == null){
 document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate")
 
 if (parseInt(year) >= 2000){
-  month = 20 + parseInt(month);
+  month = 20 + month;
 }
 
 var later;
