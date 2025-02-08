@@ -142,7 +142,7 @@ if (parseInt(year) >= 2000){
 
 var later;
 
-if (sex.toLowerCase() === "mężczyzna"){
+if (sex.toLowerCase() === "mężczyzna" || sex === "m"){
   later = "0295"
 }else{
   later = "0382"
