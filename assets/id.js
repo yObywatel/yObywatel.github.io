@@ -102,6 +102,18 @@ if (location.href.includes("?")){
 document.querySelector(".id_own_image").style.backgroundImage = `url(${data['image']})`;
 
 var birthday = data['birthday'];
+var birthdaySplit = birthday.split(".");
+var day = parseInt(birthdaySplit[0]);
+var month = parseInt(birthdaySplit[1]);
+var year = parseInt(birthdaySplit[2]);
+
+var birthdayDate = new Date();
+birthdayDate.setDate(day)
+birthdayDate.setMonth(month)
+birthdayDate.setFullYear(year)
+
+birthday = birthdayDate.toLocaleDateString("pl-PL", options);
+
 var sex = data['sex'];
 
 setData("name", data['name']);
@@ -115,11 +127,6 @@ setData("mothersFamilyName", data['mothersFamilyName']);
 setData("birthPlace", data['birthPlace']);
 setData("countryOfBirth", data['countryOfBirth']);
 setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
-
-var birthdaySplit = birthday.split(".");
-var day = birthdaySplit[0];
-var month = birthdaySplit[1];
-var year = birthdaySplit[2];
 
 if (localStorage.getItem("homeDate") == null){
   var homeDay = getRandom(1, 25);
@@ -146,6 +153,14 @@ if (sex.toLowerCase() === "mężczyzna" || sex === "m"){
   later = "0295"
 }else{
   later = "0382"
+}
+
+if (day < 10){
+  day = "0" + day
+}
+
+if (month < 10){
+  month = "0" + month
 }
 
 var pesel = year.substring(2) + month + day + later + "7";
