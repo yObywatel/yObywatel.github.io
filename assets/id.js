@@ -104,8 +104,8 @@ birthday = birthdayDate.toLocaleDateString("pl-PL", options);
 
 var sex = data['sex'];
 
-setData("name", data['name']);
-setData("surname", data['surname']);
+setData("name", data['name'].toUpperCase());
+setData("surname", data['surname'].toUpperCase());
 setData("nationality", data['nationality'].toUpperCase());
 setData("birthday", birthday);
 setData("familyName", data['familyName']);
