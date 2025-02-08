@@ -1,4 +1,28 @@
 
+var selector = document.querySelector(".selector_box");
+selector.addEventListener('click', () => {
+    if (selector.classList.contains("selector_open")){
+        selector.classList.remove("selector_open")
+    }else{
+        selector.classList.add("selector_open")
+    }
+})
+
+document.querySelectorAll(".date_input").forEach((element) => {
+    element.addEventListener('click', () => {
+        document.querySelector(".date").classList.remove("error_shown")
+    })
+})
+
+var sex = "m"
+
+document.querySelectorAll(".selector_option").forEach((option) => {
+    option.addEventListener('click', () => {
+        sex = option.id;
+        document.querySelector(".selected_text").innerHTML = option.innerHTML;
+    })
+})
+
 var upload = document.querySelector(".upload");
 
 var imageInput = document.createElement("input");
@@ -18,6 +42,8 @@ upload.addEventListener('click', () => {
     imageInput.click();
 });
 
+var result;
+
 imageInput.addEventListener('change', (event) => {
 
     upload.classList.remove("upload_loaded");
@@ -26,27 +52,19 @@ imageInput.addEventListener('change', (event) => {
     upload.removeAttribute("selected")
 
     var file = imageInput.files[0];
-    var data = new FormData();
-    data.append("image", file);
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
 
-    fetch('	https://api.imgur.com/3/image' ,{
-        method: 'POST',
-        headers: {
-            'Authorization': 'Client-ID 4ecc257cbb25ccc'
-        },
-        body: data
-    })
-    .then(result => result.json())
-    .then(response => {
-        
-        var url = response.data.link;
-        upload.classList.remove("error_shown")
-        upload.setAttribute("selected", url);
+        result = event.target.result;
+
+        upload.setAttribute("selected", true)
+
         upload.classList.add("upload_loaded");
         upload.classList.remove("upload_loading");
-        upload.querySelector(".upload_uploaded").src = url;
+        upload.querySelector(".upload_uploaded").src = result;
 
-    })
+    }
 
 })
 
@@ -54,23 +72,42 @@ document.querySelector(".go").addEventListener('click', () => {
 
     var empty = [];
 
-    var params = new URLSearchParams();
-
+    localStorage.setItem("sex", sex)
     if (!upload.hasAttribute("selected")){
         empty.push(upload);
         upload.classList.add("error_shown")
     }else{
-        params.append("image", upload.getAttribute("selected"));
+        localStorage.setItem("image", result);
+    }
+
+    var birthday = "";
+    var dateEmpty = false;
+    document.querySelectorAll(".date_input").forEach((element) => {
+        birthday = birthday + "." + element.value
+        if (isEmpty(element.value)){
+            dateEmpty = true;
+        }
+    })
+
+    birthday = birthday.substring(1);
+
+    if (dateEmpty){
+        var dateElement = document.querySelector(".date");
+        dateElement.classList.add("error_shown");
+        empty.push(dateElement);
+    }else{
+        localStorage.setItem("birthday", birthday)
     }
 
     document.querySelectorAll(".input_holder").forEach((element) => {
 
         var input = element.querySelector(".input");
-        params.append(input.id, input.value);
 
         if (isEmpty(input.value)){
             empty.push(element);
             element.classList.add("error_shown");
+        }else{
+            localStorage.setItem(input.id, input.value)
         }
 
     })
@@ -78,7 +115,8 @@ document.querySelector(".go").addEventListener('click', () => {
     if (empty.length != 0){
         empty[0].scrollIntoView();
     }else{
-        forwardToId(params);
+
+        forwardToId();
     }
 
 });
@@ -90,9 +128,9 @@ function isEmpty(value){
 
 }
 
-function forwardToId(params){
+function forwardToId(){
 
-    location.href = "/id?" + params
+    location.href = "/id"
 
 }
 

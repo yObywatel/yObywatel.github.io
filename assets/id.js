@@ -1,19 +1,34 @@
 
 
 var time = document.getElementById("time");
-var params = new URLSearchParams(window.location.search);
-
 var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+
+if (localStorage.getItem("update") == null){
+  localStorage.setItem("update", "24.12.2024")
+}
+
+var date = new Date();
+
+var updateText = document.querySelector(".bottom_update_value");
+updateText.innerHTML = localStorage.getItem("update");
+
+var update = document.querySelector(".bottom_update_button");
+update.addEventListener('click', () => {
+  var newDate = date.toLocaleDateString("pl-PL", options);
+  localStorage.setItem("update", newDate);
+  updateText.innerHTML = newDate;
+
+  scroll(0, 0)
+});
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
-var date = new Date();
 setClock();
 function setClock(){
     date = new Date()
-    time.innerHTML = "Czas: " + date.toTimeString().split(" ")[0] + " " + date.toLocaleDateString("pl-PL", options);    
+    time.innerHTML = "Czas: " + date.toLocaleTimeString() + " " + date.toLocaleDateString("pl-PL", options);    
     delay(1000).then(() => {
         setClock();
     })
@@ -65,28 +80,61 @@ unfold.addEventListener('click', () => {
 
 })
 
-document.querySelector(".id_own_image").style.backgroundImage = `url(${params.get("image")})`;
+var data = {}
 
-var birthday = params.get("birthday");
-var sex = params.get("sex");
+if (location.href.includes("?")){
 
-setData("name", params.get("name").toUpperCase());
-setData("surname", params.get("surname").toUpperCase());
-setData("nationality", params.get("nationality").toUpperCase());
+  var params = new URLSearchParams(window.location.search);
+  params.keys().forEach((key) => {
+    data[key] = params.get(key);
+  })
+
+}else{
+
+  keys = Object.keys(localStorage),
+
+  keys.forEach((key) => {
+    data[key] = localStorage.getItem(key)
+  });
+  
+}
+
+document.querySelector(".id_own_image").style.backgroundImage = `url(${data['image']})`;
+
+var birthday = data['birthday'];
+var sex = data['sex'];
+
+setData("name", data['name']);
+setData("surname", data['surname']);
+setData("nationality", data['nationality']);
 setData("birthday", birthday);
-setData("familyName", params.get("familyName"));
+setData("familyName", data['familyName']);
 setData("sex", sex);
-setData("fathersFamilyName", params.get("fathersFamilyName"));
-setData("mothersFamilyName", params.get("mothersFamilyName"));
-setData("birthPlace", params.get("birthPlace"));
-setData("countryOfBirth", params.get("countryOfBirth"));
-setData("adress", "ul. " + params.get("adress1") + "<br>" + params.get("adress2") + " " + params.get("city"));
-setData("checkInDate", params.get("checkInDate"));
+setData("fathersFamilyName", data['fathersFamilyName']);
+setData("mothersFamilyName", data['mothersFamilyName']);
+setData("birthPlace", data['birthPlace']);
+setData("countryOfBirth", data['countryOfBirth']);
+setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
 
 var birthdaySplit = birthday.split(".");
 var day = birthdaySplit[0];
 var month = birthdaySplit[1];
 var year = birthdaySplit[2];
+
+if (localStorage.getItem("homeDate") == null){
+  var homeDay = getRandom(1, 25);
+  var homeMonth = getRandom(1, 13);
+  var homeYear = getRandom(2012, 2019);
+
+  var homeDate = new Date();
+  homeDate.setDate(homeDay);
+  homeDate.setMonth(homeMonth);
+  homeDate.setFullYear(homeYear)
+
+  localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
+}
+
+document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate")
 
 if (parseInt(year) >= 2000){
   month = 20 + parseInt(month);
@@ -107,5 +155,9 @@ function setData(id, value){
 
   document.getElementById(id).innerHTML = value;
 
+}
+
+function getRandom(min, max) {
+  return parseInt(Math.random() * (max - min) + min);
 }
 

@@ -89,6 +89,160 @@ html{
     color: var(--main-color);
 }
 
+.top_info{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--main-color);
+    opacity: 0.5;
+}
+
+.date_grid{
+    height: 45px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-gap: 5%;
+    grid-template-columns: repeat(3, calc(100%/3 - 10%/3));
+    margin-bottom: 30px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.selector_box{
+    margin-top: -5px;
+    margin-bottom: 30px;
+    max-height: 45px;
+    border: 2px solid rgb(138, 138, 138);
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: 200ms;
+}
+
+.selected_grid{
+    transition: 200ms;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    hyphenate-character: 45px;
+    display: grid;
+    height: 45px;
+    grid-template-columns: 70% 30%;
+}
+
+.selected_arrow{
+    width: 25px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 0px;
+    margin-left: auto;
+    transform: translateY(1000px);
+    filter: drop-shadow(0px -1000px var(--main-color));
+    opacity: 0.5;
+    transition: 200ms;
+}
+
+.selector_box:hover{
+    opacity: 0.5;
+}
+
+.option_box{
+    display: grid;
+    height: max-content;
+    width: 90%;
+    grid-auto-rows: 45px;
+    grid-auto-flow: row;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selector_text{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0px;
+    font-weight: 600;
+    height: max-content;
+    color: var(--main-color);
+    opacity: 0.5;
+}
+
+.date{
+    position: relative;
+}
+
+.date .error{
+    margin-left: 5%;
+    margin-top: 50px;
+}
+
+.selector_open{
+    max-height: 400px;
+}
+
+.selector_open .selected_grid:hover{
+    opacity: 0.5;
+}
+
+.selector_open .selected_arrow{
+    rotate: 180deg;
+}
+
+.selector_open:hover{
+    opacity: 1;
+}
+
+.selector_option{
+    height: 45px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 100%;
+    line-height: 45px;
+    color: var(--main-color);
+    opacity: 0.5;
+    font-weight: 600;
+    transition: 200ms;
+}
+
+.selector_option:hover{
+    opacity: 0.2;
+}
+
+.date_input{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid rgb(138, 138, 138);
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    color: rgb(138, 138, 138);
+}
+
+.date_input::placeholder{
+    font-weight: bold;
+    text-align: center;
+    color: rgb(138, 138, 138);
+}
+
 .arrow{
     cursor: pointer;
     width: 25px;
