@@ -130,12 +130,12 @@ setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + da
 
 if (localStorage.getItem("homeDate") == null){
   var homeDay = getRandom(1, 25);
-  var homeMonth = getRandom(1, 13);
+  var homeMonth = getRandom(0, 12);
   var homeYear = getRandom(2012, 2019);
 
   var homeDate = new Date();
   homeDate.setDate(homeDay);
-  homeDate.setMonth(homeMonth);
+  homeDate.setMonth(homeMonth-1);
   homeDate.setFullYear(homeYear)
 
   localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
