@@ -109,7 +109,7 @@ var year = parseInt(birthdaySplit[2]);
 
 var birthdayDate = new Date();
 birthdayDate.setDate(day)
-birthdayDate.setMonth(month)
+birthdayDate.setMonth(month-1)
 birthdayDate.setFullYear(year)
 
 birthday = birthdayDate.toLocaleDateString("pl-PL", options);
@@ -135,7 +135,7 @@ if (localStorage.getItem("homeDate") == null){
 
   var homeDate = new Date();
   homeDate.setDate(homeDay);
-  homeDate.setMonth(homeMonth-1);
+  homeDate.setMonth(homeMonth);
   homeDate.setFullYear(homeYear)
 
   localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
