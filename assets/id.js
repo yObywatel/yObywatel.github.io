@@ -104,6 +104,12 @@ birthday = birthdayDate.toLocaleDateString("pl-PL", options);
 
 var sex = data['sex'];
 
+if (sex === "m"){
+  sex = "Mężczyzna"
+}else if (sex === "k"){
+  sex = "Kobieta"
+}
+
 setData("name", data['name'].toUpperCase());
 setData("surname", data['surname'].toUpperCase());
 setData("nationality", data['nationality'].toUpperCase());
@@ -137,7 +143,7 @@ if (parseInt(year) >= 2000){
 
 var later;
 
-if (sex.toLowerCase() === "mężczyzna" || sex === "m"){
+if (sex.toLowerCase() === "mężczyzna"){
   later = "0295"
 }else{
   later = "0382"
