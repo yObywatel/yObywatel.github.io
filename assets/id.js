@@ -82,21 +82,9 @@ unfold.addEventListener('click', () => {
 
 var data = {}
 
-if (location.href.includes("?")){
-
-  var params = new URLSearchParams(window.location.search);
-  for (var key of params.keys()){
-    data[key] = params.get(key);
-  }
-
-}else{
-
-  keys = Object.keys(localStorage),
-
-  keys.forEach((key) => {
-    data[key] = localStorage.getItem(key)
-  });
-  
+var params = new URLSearchParams(window.location.search);
+for (var key of params.keys()){
+  data[key] = params.get(key);
 }
 
 document.querySelector(".id_own_image").style.backgroundImage = `url(${data['image']})`;

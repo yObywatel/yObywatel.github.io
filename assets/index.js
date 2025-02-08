@@ -43,8 +43,6 @@ upload.addEventListener('click', () => {
     upload.classList.remove("error_shown")
 });
 
-var result;
-
 imageInput.addEventListener('change', (event) => {
 
     upload.classList.remove("upload_loaded");
@@ -53,19 +51,27 @@ imageInput.addEventListener('change', (event) => {
     upload.removeAttribute("selected")
 
     var file = imageInput.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
+    var data = new FormData();
+    data.append("image", file);
 
-        result = event.target.result;
-
-        upload.setAttribute("selected", true)
-
+    fetch('	https://api.imgur.com/3/image' ,{
+        method: 'POST',
+        headers: {
+            'Authorization': 'Client-ID 4ecc257cbb25ccc'
+        },
+        body: data
+    })
+    .then(result => result.json())
+    .then(response => {
+        
+        var url = response.data.link;
+        upload.classList.remove("error_shown")
+        upload.setAttribute("selected", url);
         upload.classList.add("upload_loaded");
         upload.classList.remove("upload_loading");
-        upload.querySelector(".upload_uploaded").src = result;
+        upload.querySelector(".upload_uploaded").src = url;
 
-    }
+    })
 
 })
 
@@ -73,12 +79,14 @@ document.querySelector(".go").addEventListener('click', () => {
 
     var empty = [];
 
-    localStorage.setItem("sex", sex)
+    var params = new URLSearchParams();
+
+    params.set("sex", sex)
     if (!upload.hasAttribute("selected")){
         empty.push(upload);
         upload.classList.add("error_shown")
     }else{
-        localStorage.setItem("image", result);
+        params.set("image", upload.getAttribute("selected"))
     }
 
     var birthday = "";
@@ -97,7 +105,7 @@ document.querySelector(".go").addEventListener('click', () => {
         dateElement.classList.add("error_shown");
         empty.push(dateElement);
     }else{
-        localStorage.setItem("birthday", birthday)
+        params.set("birthday", birthday)
     }
 
     document.querySelectorAll(".input_holder").forEach((element) => {
@@ -108,7 +116,7 @@ document.querySelector(".go").addEventListener('click', () => {
             empty.push(element);
             element.classList.add("error_shown");
         }else{
-            localStorage.setItem(input.id, input.value)
+            params.set(input.id, input.value)
         }
 
     })
@@ -117,7 +125,7 @@ document.querySelector(".go").addEventListener('click', () => {
         empty[0].scrollIntoView();
     }else{
 
-        forwardToId();
+        forwardToId(params);
     }
 
 });
@@ -129,9 +137,9 @@ function isEmpty(value){
 
 }
 
-function forwardToId(){
+function forwardToId(params){
 
-    location.href = "/id"
+    location.href = "/id?" + params
 
 }
 
