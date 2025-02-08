@@ -106,7 +106,7 @@ var sex = data['sex'];
 
 setData("name", data['name']);
 setData("surname", data['surname']);
-setData("nationality", data['nationality']);
+setData("nationality", data['nationality'].toUpperCase());
 setData("birthday", birthday);
 setData("familyName", data['familyName']);
 setData("sex", sex);
