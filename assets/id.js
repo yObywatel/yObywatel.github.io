@@ -85,9 +85,9 @@ var data = {}
 if (location.href.includes("?")){
 
   var params = new URLSearchParams(window.location.search);
-  params.keys().forEach((key) => {
+  for (var key of params.keys()){
     data[key] = params.get(key);
-  })
+  }
 
 }else{
 
